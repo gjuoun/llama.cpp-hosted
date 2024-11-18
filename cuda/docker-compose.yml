@@ -2,12 +2,17 @@ version: '3.8'
 
 services:
   llama:
-    image: ghcr.io/gjuoun/llama.cpp-hosted/vulkan:latest
+    #? needs nvidia-container-tookit to be installed
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    image: ghcr.io/ggerganov/llama.cpp:server-cuda
     ports:
       - "8080:8080"
-    devices:
-      - /dev/kfd:/dev/kfd
-      - /dev/dri:/dev/dri
     volumes:
       - $HOME/.cache/llama.cpp:/root/.cache/llama.cpp
     environment:
