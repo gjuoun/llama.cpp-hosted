@@ -53,6 +53,7 @@ jobs:
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v6
+      id: docker_build
       with:
         context: llama-repo
         file: llama-repo/dockerfile
