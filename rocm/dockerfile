@@ -45,9 +45,9 @@ ENV LLAMA_ARG_HOST=0.0.0.0
 # Enable cURL
 ENV LLAMA_CURL=1
 RUN apt-get update && \
-    apt-get install -y  build-essential cmake libcurl4-openssl-dev curl
+    apt-get install -y  build-essential make libcurl4-openssl-dev curl
 
-RUN make -j$(nproc) llama-server
+RUN make llama-server
 
 HEALTHCHECK CMD [ "curl", "-f", "http://localhost:8080/health" ]
 
