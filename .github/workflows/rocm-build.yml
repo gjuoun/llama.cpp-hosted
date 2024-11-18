@@ -42,6 +42,7 @@ jobs:
       with:
         context: llama-repo
         file: llama-repo/dockerfile
+        cache-from: type=registry,ref=gjuoun/llama.cpp-hosted:rocm
         push: true
         tags: |
           ${{ env.DOCKER_IMAGE }}:rocm
