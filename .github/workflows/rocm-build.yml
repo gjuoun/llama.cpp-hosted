@@ -2,7 +2,10 @@ name: Build rocm
 
 on: 
   workflow_dispatch:
-    
+
+#! this image is too big to build on github action (~ 28Gb)
+# better build yourself locally
+
 env:
   DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/llama.cpp-hosted
 concurrency:
