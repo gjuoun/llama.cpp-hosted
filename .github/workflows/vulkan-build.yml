@@ -9,6 +9,10 @@ on:
 env:
   DOCKER_IMAGE: ghcr.io/${{ github.repository }}/vulkan
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-vulkan
+  cancel-in-progress: true
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
