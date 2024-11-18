@@ -50,6 +50,9 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Check disk space
+      run: df -h
+      
     - name: Build and push Docker image
       id: docker_build
       uses: docker/build-push-action@v6
