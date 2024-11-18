@@ -1,11 +1,15 @@
 name: Build and Push Docker Image
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
 
+# ! trigger it manually
+on: 
+  workflow_dispatch:
+    
 env:
   DOCKER_IMAGE: ghcr.io/${{ github.repository }}/vulkan
 
@@ -14,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 
-  
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
