@@ -10,11 +10,11 @@ This is a personal project for running llama.cpp server on different GPU archite
 
 ## Docker Images
 
-We provide pre-built Docker images for each supported GPU architecture:
+These are the pre-built Docker images for each supported GPU architecture:
 
-- CUDA: `ghcr.io/ggerganov/llama.cpp:server-cuda`
-- ROCm: `gjuoun/llama.cpp-hosted:rocm`
-- Vulkan: `ghcr.io/gjuoun/llama.cpp-hosted/vulkan:latest`
+- CUDA: `ghcr.io/ggerganov/llama.cpp:server-cuda` 
+- ROCm: `gjuoun/llama.cpp-hosted:rocm` (maintained by me)
+- Vulkan: `ghcr.io/gjuoun/llama.cpp-hosted/vulkan:latest` (maintained by me)
 
 ## Usage
 
