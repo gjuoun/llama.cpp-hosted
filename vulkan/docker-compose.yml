@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  llama:
+    image: vulkan-llama:latest
+    ports:
+      - "8080:8080"
+    devices:
+      # - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    volumes:
+      - $HOME/.cache/llama.cpp:/root/.cache/llama.cpp
+    environment:
+      - LLAMA_ARG_N_GPU_LAYERS=29
+      - LLAMA_ARG_CTX_SIZE=4096
+      - LLAMA_ARG_MODEL_URL=https://huggingface.co/QuantFactory/Qwen2.5-3B-Instruct-GGUF/resolve/main/Qwen2.5-3B-Instruct.Q4_K_M.gguf
+
+networks:
+  default:
+    name: llama-network
