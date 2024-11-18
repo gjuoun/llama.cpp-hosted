@@ -16,7 +16,7 @@ RUN wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key 
 WORKDIR /app
 COPY . .
 RUN cmake -B build -DGGML_VULKAN=1 -DLLAMA_CURL=1
-RUN cmake --build build --config Release
+RUN cmake --build build --config Release 
     
 
 # # Clean up, move build to /build
