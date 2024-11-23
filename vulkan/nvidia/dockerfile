@@ -1,0 +1,48 @@
+ARG UBUNTU_VERSION=jammy
+
+FROM ubuntu:$UBUNTU_VERSION AS build
+
+# need NVIDIA gpu
+RUN apt update && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt-get -y install \
+        pciutils \
+        vulkan-tools \
+        mesa-utils
+
+# Install build tools
+RUN apt install -y git build-essential cmake wget
+
+# Install Vulkan SDK and cURL, `libcurl4-openssl-dev curl ` is used for remote model downloading
+RUN wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
+    wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list https://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list && \
+    apt update -y && \
+    apt-get install -y vulkan-sdk libcurl4-openssl-dev curl 
+
+# Build it
+WORKDIR /app
+COPY . .
+RUN cmake -B build -DGGML_VULKAN=1 -DLLAMA_CURL=1
+RUN cmake --build build --config Release
+
+# locale settings for C
+ENV LC_ALL=C.utf8
+# Must be set to 0.0.0.0 so it can listen to requests from host machine, --host
+ENV LLAMA_ARG_HOST=0.0.0.0
+# --port
+ENV LLAMA_ARG_PORT=8080
+# --model-url
+ENV LLAMA_ARG_MODEL_URL="https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+
+# -ngl, GPU layers
+ENV LLAMA_ARG_N_GPU_LAYERS=99
+ENV LLAMA_ARG_CTX_SIZE=0
+
+# Needed to share GPU (nvidia)
+ENV NVIDIA_DRIVER_CAPABILITIES=all
+ENV NVIDIA_VISIBLE_DEVICES=all
+
+HEALTHCHECK CMD [ "curl", "-f", "http://localhost:8080/health" ]
+EXPOSE 8080
+
+CMD [ "/app/build/bin/llama-server"]

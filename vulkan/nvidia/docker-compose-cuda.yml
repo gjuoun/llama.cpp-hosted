@@ -1,0 +1,30 @@
+
+services:
+  llama:
+    image: vulkan-cuda:latest
+    ports:
+      - "8080:8080"
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - $HOME/.cache/llama.cpp:/root/.cache/llama.cpp
+    environment:
+      #- NVIDIA_VISIBLE_DEVICES=all
+      #- NVIDIA_DRIVER_CAPABILITIES=all
+      - LLAMA_ARG_FLASH_ATTN=true
+      - LLAMA_ARG_ALIAS=qwen2.5-3b
+      - LLAMA_ARG_N_GPU_LAYERS=37
+      - LLAMA_ARG_HOST=0.0.0.0
+      - LLAMA_ARG_PORT=8080
+      - LLAMA_ARG_CTX_SIZE=0
+      - LLAMA_ARG_MODEL_URL=https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf
+
+networks:
+  default:
+    name: llama-network
