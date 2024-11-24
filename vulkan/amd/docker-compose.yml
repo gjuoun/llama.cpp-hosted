@@ -10,7 +10,7 @@ services:
     volumes:
       - $HOME/.cache/llama.cpp:/root/.cache/llama.cpp
     environment:
-      - LLAMA_ARG_FLASH_ATTN=true
+      #- LLAMA_ARG_FLASH_ATTN=true
       - LLAMA_ARG_ALIAS=qwen2.5-3b
       - LLAMA_ARG_N_GPU_LAYERS=37
       - LLAMA_ARG_HOST=0.0.0.0

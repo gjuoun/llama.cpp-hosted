@@ -1,12 +1,13 @@
 
 services:
   llama:
-    image: gjuoun/llama.cpp-hosted:rocm
+    image: gjuoun/llama.cpp-hosted:rocm5.6
     ports:
       - "8080:8080"
     devices:
       - /dev/kfd:/dev/kfd
-      - /dev/dri:/dev/dri
+      - /dev/dri/card0:/dev/dri/card0
+      - /dev/dri/renderD128:/dev/dri/renderD128
     volumes:
       - $HOME/.cache/llama.cpp:/root/.cache/llama.cpp
     environment:
