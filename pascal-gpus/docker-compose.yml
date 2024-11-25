@@ -1,0 +1,23 @@
+services:
+  vllm:
+    image: ghcr.io/sasha0552/vllm:v0.6.4.post1
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: ["gpu"]
+              #count: 1 | all 
+              device_ids: ["0"]            
+    environment:
+      - NVCC_THREADS=4
+    volumes:
+      - ~/models:/root/models
+    ports:
+      - "8080:8000"
+    ipc: host
+    command:
+      - --model=/root/models/qwen2.5-3b/qwen2.5-3b-instruct-q4_k_m.gguf
+      - --dtype=auto
+      - --served-model-name=spacebase/qwen2.5-3b
